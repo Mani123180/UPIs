@@ -3,8 +3,9 @@ import {
   Shield, AlertTriangle, CheckCircle, TrendingUp, Activity, 
   Clock, MapPin, CreditCard, Bell, Search, ArrowRight,
   ShieldCheck, Smartphone, User, LayoutDashboard, Send, 
-  LogOut, Settings, History, Info
+  LogOut, Settings, History, Info, Menu, X
 } from 'lucide-react';
+
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateTransaction, analyzeRisk } from './utils/engine';
@@ -31,8 +32,8 @@ const StatCard = ({ title, value, icon: Icon, trend, color }) => (
 
 const LandingPage = ({ onNavigate }) => (
   <div className="hero animate-fade-in">
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '50px', marginBottom: '2rem', fontSize: '0.9rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <Shield size={16} color="var(--accent-success)" />
+    <div className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '50px', marginBottom: '2rem', fontSize: '0.8rem', border: '1px solid rgba(255,255,255,0.1)', maxWidth: '90%' }}>
+      <Shield size={14} color="var(--accent-success)" />
       <span>Trusted by 5M+ UPI Users across India</span>
     </div>
     <h1>Protect Your <br/><span style={{ color: 'var(--accent-primary)' }}>UPI Transactions</span></h1>
@@ -42,7 +43,8 @@ const LandingPage = ({ onNavigate }) => (
       <button className="btn btn-outline" onClick={() => onNavigate('admin')}>View Analytics</button>
     </div>
     
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', marginTop: '6rem', width: '100%' }}>
+    <div className="features-grid">
+
       {[
         { icon: Activity, title: 'Real-time Analysis', desc: 'Instant fraud detection using neural network algorithms.' },
         { icon: ShieldCheck, title: 'Secure Payment', desc: 'Verify merchant credibility before authorizing UPI payment.' },
@@ -57,6 +59,7 @@ const LandingPage = ({ onNavigate }) => (
     </div>
   </div>
 );
+
 
 const UserPortal = ({ transactions, onNewTransaction }) => {
   const [formData, setFormData] = useState({ 
@@ -130,15 +133,16 @@ const UserPortal = ({ transactions, onNewTransaction }) => {
               <input className="form-input" required placeholder="TXN..." value={formData.transactionId} onChange={e => setFormData({...formData, transactionId: e.target.value})} />
             </div>
 
-            <div className="form-row" style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="form-row">
               <div className="form-group" style={{ flex: 1 }}><label>Recipient UPI ID</label><input className="form-input" required placeholder="e.g. user@okaxis" value={formData.recipientUpiId} onChange={e => setFormData({...formData, recipientUpiId: e.target.value})} /></div>
               <div className="form-group" style={{ flex: 1 }}><label>Amount (₹)</label><input type="number" className="form-input" required placeholder="0.00" value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} /></div>
             </div>
 
-            <div className="form-row" style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="form-row">
               <div className="form-group" style={{ flex: 1 }}><label>Recipient Name</label><input className="form-input" required placeholder="Name as per bank" value={formData.recipientName} onChange={e => setFormData({...formData, recipientName: e.target.value})} /></div>
               <div className="form-group" style={{ flex: 1 }}><label>Description (Optional)</label><input className="form-input" placeholder="What is this for?" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /></div>
             </div>
+
 
             <button className="btn btn-primary" style={{ width: '100%', marginTop: '1rem', background: 'var(--accent-primary)', color: '#000', fontWeight: 'bold' }} disabled={loading}>
               {loading ? 'Analyzing Risks...' : 'Validate Transaction'}
@@ -212,7 +216,8 @@ const ProfileSettings = ({ onBack }) => {
         >
           <ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} /> Back to Dashboard
         </button>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+        <div className="profile-grid">
+
           <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', height: 'fit-content' }}>
             <div style={{ width: '100px', height: '100px', borderRadius: '50%', background: 'linear-gradient(45deg, var(--accent-primary), var(--accent-secondary))', margin: '0 auto 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 800, color: '#000' }}>JD</div>
             <h2 style={{ marginBottom: '0.5rem' }}>John Doe</h2>
@@ -229,13 +234,15 @@ const ProfileSettings = ({ onBack }) => {
             </div>
           </div>
 
+
           <div className="glass-card" style={{ padding: '2.5rem' }}>
             <h3 style={{ marginBottom: '2rem' }}>Personal Information</h3>
             <div style={{ display: 'grid', gap: '1.5rem' }}>
-              <div className="form-row" style={{ display: 'flex', gap: '1.5rem' }}>
+              <div className="form-row">
                 <div className="form-group" style={{ flex: 1 }}><label>Full Name</label><input className="form-input" defaultValue="John Doe" /></div>
                 <div className="form-group" style={{ flex: 1 }}><label>Phone Number</label><input className="form-input" defaultValue="+91 98765 43210" /></div>
               </div>
+
               <div className="form-group"><label>Email Address</label><input className="form-input" defaultValue="john.doe@sentinel.ai" /></div>
               <div className="form-group"><label>Primary UPI ID</label><input className="form-input" defaultValue="jdoe@okaxis" /></div>
               
@@ -281,7 +288,8 @@ const SecurityCenter = ({ onBack }) => (
         <ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} /> Back
       </button>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2.5rem' }}>
+      <div className="security-stats-grid">
+
         <div className="glass-card" style={{ padding: '1.5rem' }}>
           <div style={{ color: 'var(--accent-success)', marginBottom: '0.5rem' }}><ShieldCheck size={24} /></div>
           <h4 style={{ marginBottom: '0.25rem' }}>Core Engine</h4>
@@ -302,7 +310,9 @@ const SecurityCenter = ({ onBack }) => (
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+      <div className="security-main-grid">
+
+
         <div className="glass-card" style={{ padding: '2rem' }}>
           <h3 style={{ marginBottom: '1.5rem' }}>Security Controls</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -388,7 +398,9 @@ const AdminDashboard = ({ transactions, stats, chartData }) => (
       </div>
     </div>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+    <div className="admin-main-grid">
+
+
       <div className="glass-card" style={{ padding: '1.5rem' }}>
         <h2 style={{ marginBottom: '1.5rem', fontSize: '1.25rem' }}>Live Threat Map</h2>
         <div style={{ height: '300px' }}>
@@ -429,12 +441,14 @@ const AdminDashboard = ({ transactions, stats, chartData }) => (
 
 export default function App() {
   const [view, setView] = useState('landing');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [stats, setStats] = useState({ total: 0, fraud: 0, volume: 0 });
   const [chartData, setChartData] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
+
 
   const notifications = [
     { id: 1, title: 'Fraud Blocked', message: 'A ₹1.5L transaction was flagged as critical.', time: '2m ago', type: 'fraud' },
@@ -497,16 +511,26 @@ export default function App() {
     <div className="app-container">
       <header>
         <div className="container nav-content">
-          <div className="logo" onClick={() => setView('landing')} style={{ cursor: 'pointer' }}>
+          <div className="logo" onClick={() => { setView('landing'); setIsMobileMenuOpen(false); }} style={{ cursor: 'pointer' }}>
             <Shield size={24} color="var(--accent-primary)" />
             UPI Sentinel
           </div>
-          <nav className="nav-links">
-            <span className={`nav-link ${view === 'user' ? 'active' : ''}`} onClick={() => setView('user')}>User Portal</span>
-            <span className={`nav-link ${view === 'admin' ? 'active' : ''}`} onClick={() => setView('admin')}>Admin Dashboard</span>
+          <nav className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            <span className={`nav-link ${view === 'user' ? 'active' : ''}`} onClick={() => { setView('user'); setIsMobileMenuOpen(false); }}>User Portal</span>
+            <span className={`nav-link ${view === 'admin' ? 'active' : ''}`} onClick={() => { setView('admin'); setIsMobileMenuOpen(false); }}>Admin Dashboard</span>
+            {isMobileMenuOpen && (
+              <>
+                <span className={`nav-link ${view === 'security' ? 'active' : ''}`} onClick={() => { setView('security'); setIsMobileMenuOpen(false); }}>Security Center</span>
+                <span className={`nav-link ${view === 'profile' ? 'active' : ''}`} onClick={() => { setView('profile'); setIsMobileMenuOpen(false); }}>Account Settings</span>
+              </>
+            )}
           </nav>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button className="hamburger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
             <div className="dropdown-container">
               <div 
                 style={{ cursor: 'pointer', position: 'relative', padding: '0.5rem', borderRadius: '50%', transition: 'background 0.2s' }}
